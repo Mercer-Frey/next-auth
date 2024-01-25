@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { ILoginButtonProps } from "@/types/auth/login-button.props";
 
 export const LoginButton = (
 	{children, mode = "redirect", asChild}: ILoginButtonProps
