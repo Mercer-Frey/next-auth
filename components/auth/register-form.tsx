@@ -2,34 +2,34 @@
 
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useForm } from "react-hook-form";
-import { ELoginSchema, LoginSchema, LoginSchemaInfer } from "@/schemas/validations/login.schema";
+import { ERegisterSchema, RegisterSchema, RegisterSchemaInfer } from "@/schemas/validations/register.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/app/auth/form-error";
 import { FormSuccess } from "@/app/auth/form-success";
-import { login } from "@/actions/login.action";
 import { useState, useTransition } from "react";
+import { register } from "@/actions/register.action";
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
 	const [error, setError] = useState<string | undefined>('')
 	const [success, setSuccess] = useState<string | undefined>('')
 	const [isPending, startTransition] = useTransition()
-	const form = useForm<LoginSchemaInfer>({
-		resolver: zodResolver(LoginSchema),
+	const form = useForm<RegisterSchemaInfer>({
+		resolver: zodResolver(RegisterSchema),
 		defaultValues: {
 			email: '',
 			password: '',
 		}
 	})
 	
-	const onLoginSubmit = (values: LoginSchemaInfer) => {
+	const onRegisterSubmit = (values: RegisterSchemaInfer) => {
 		setError('')
 		setSuccess('')
 		
 		startTransition(() => {
-			login(values)
+			register(values)
 				.then(data => {
 					setError(data.error)
 					setSuccess(data.success)
@@ -39,20 +39,41 @@ export const LoginForm = () => {
 	
 	return (
 		<CardWrapper
-			headerLabel="Welcome back"
-			backButtonLabel="Don't have an account?"
-			backButtonHref="/auth/register"
+			headerLabel="Create an account"
+			backButtonLabel="Already have an account?"
+			backButtonHref="/auth/login"
 			showSocial
 		>
 			<Form { ...form }>
 				<form
 					className='space-y-6'
-					onSubmit={ form.handleSubmit(onLoginSubmit) }
+					onSubmit={ form.handleSubmit(onRegisterSubmit) }
 				>
 					
 					<div className='space-y-4'>
 						<FormField
-							name={ ELoginSchema.Email }
+							name={ ERegisterSchema.Name }
+							control={ form.control }
+							render={ ({field}) => (
+								<FormItem>
+									<FormLabel>Name</FormLabel>
+									<FormControl>
+										<Input
+											{ ...field }
+											disabled={ isPending }
+											placeholder='John Doe'
+											type='text'
+										></Input>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							) }
+						/>
+					</div>
+					
+					<div className='space-y-4'>
+						<FormField
+							name={ ERegisterSchema.Email }
 							control={ form.control }
 							render={ ({field}) => (
 								<FormItem>
@@ -61,7 +82,7 @@ export const LoginForm = () => {
 										<Input
 											{ ...field }
 											disabled={ isPending }
-											placeholder='john.email@huy.com'
+											placeholder='jhon.email@huy.com'
 											type='email'
 										></Input>
 									</FormControl>
@@ -73,7 +94,7 @@ export const LoginForm = () => {
 					
 					<div className='space-y-4'>
 						<FormField
-							name={ ELoginSchema.Password }
+							name={ ERegisterSchema.Password }
 							control={ form.control }
 							render={ ({field}) => (
 								<FormItem>
@@ -101,7 +122,7 @@ export const LoginForm = () => {
 						disabled={ isPending }
 						type='submit'
 					>
-						Login
+						Register
 					</Button>
 				
 				</form>
