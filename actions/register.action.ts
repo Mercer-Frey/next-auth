@@ -1,6 +1,6 @@
 'use server'
 
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { RegisterSchema, RegisterSchemaInfer } from "@/schemas/validations/register.schema";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
