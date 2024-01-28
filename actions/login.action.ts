@@ -4,17 +4,17 @@ import { LoginSchema, LoginSchemaInfer } from "@/schemas/validations/login.schem
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
+import { EProviders } from "@/types/auth/providers.enum";
 
 export const login = async (values: LoginSchemaInfer) => {
 	const validateFields = LoginSchema.safeParse(values)
 	
-	if (false) return {success: "Confirmation email sent!"};
 	if (!validateFields.success) return {error: 'Invalid fields!'}
 	
 	const {email, password} = validateFields.data
 	
 	try {
-		await signIn('credentials', {
+		await signIn(EProviders.Credentials, {
 			email,
 			password,
 			redirectTo: DEFAULT_LOGIN_REDIRECT

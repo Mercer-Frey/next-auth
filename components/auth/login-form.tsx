@@ -11,8 +11,11 @@ import { FormError } from "@/app/auth/form-error";
 import { FormSuccess } from "@/app/auth/form-success";
 import { login } from "@/actions/login.action";
 import { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 
 export const LoginForm = () => {
+	const searchParams = useSearchParams()
+	const urlError = searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email already in use with different provider!' : ''
 	const [error, setError] = useState<string | undefined>('')
 	const [success, setSuccess] = useState<string | undefined>('')
 	const [isPending, startTransition] = useTransition()
@@ -32,7 +35,7 @@ export const LoginForm = () => {
 			login(values)
 				.then(data => {
 					setError(data?.error)
-					setSuccess(data?.success)
+					// setSuccess(data?.success)
 				})
 		})
 	}
@@ -92,7 +95,7 @@ export const LoginForm = () => {
 						/>
 					</div>
 					
-					<FormError message={ error }></FormError>
+					<FormError message={ error || urlError }></FormError>
 					
 					<FormSuccess message={ success }></FormSuccess>
 					
