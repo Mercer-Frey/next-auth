@@ -6,7 +6,9 @@ import { getUserById } from "@/data/user";
 import "next-auth"
 // @ts-ignore
 import { UserRole } from "@prisma/client";
+import { EProviders } from "@/types/auth/providers.enum";
 
+// @ts-ignore
 // @ts-ignore
 export const {
 	handlers: {GET, POST},
@@ -30,10 +32,11 @@ export const {
 	},
 	callbacks: {
 		async signIn({user, account, profile, email, credentials}) {
-			// @ts-ignore
-			// const existingUser = await getUserById(user.id);
+			if (account?.provider !== EProviders.Credentials) return true
 			
-			// if (!existingUser?.emailVerified) return false;
+			const existingUser = await getUserById(user.id);
+			
+			if (!existingUser?.emailVerified) return false;
 			
 			return true
 		},
