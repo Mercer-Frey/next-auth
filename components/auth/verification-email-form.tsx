@@ -6,9 +6,9 @@ import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { newVerification } from "@/actions/new-verification";
+import { verificationEmail } from "@/actions/verification-email";
 
-export const NewVerificationForm = () => {
+export const VerificationEmailForm = () => {
 	const [error, setError] = useState<string | undefined>();
 	const [success, setSuccess] = useState<string | undefined>();
 	//
@@ -24,7 +24,7 @@ export const NewVerificationForm = () => {
 			return;
 		}
 		
-		newVerification(token)
+		verificationEmail(token)
 			.then((data) => {
 				setSuccess(data.success);
 				setError(data.error);
