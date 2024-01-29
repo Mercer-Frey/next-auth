@@ -18,3 +18,17 @@ export const sendVerificationEmail = async (
 	})
 		.then(res => console.log(res));
 };
+
+export const sendPasswordResetEmail = async (
+	email: string,
+	token: string,
+) => {
+	const resetLink = `${ domain }/auth/new-password?token=${ token }`
+	
+	await resend.emails.send({
+		from: 'Acme <onboarding@resend.dev>',
+		to: email,
+		subject: "Reset your password",
+		html: `<p>Click <a href="${ resetLink }">here</a> to reset password.</p>`
+	});
+};

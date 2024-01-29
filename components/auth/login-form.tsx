@@ -12,6 +12,8 @@ import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login.action";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { EResetPasswordSchema } from "@/schemas/validations/reset-password.schema";
 
 export const LoginForm = () => {
 	const searchParams = useSearchParams()
@@ -55,7 +57,7 @@ export const LoginForm = () => {
 					
 					<div className='space-y-4'>
 						<FormField
-							name={ ELoginSchema.Email }
+							name={ EResetPasswordSchema.Email }
 							control={ form.control }
 							render={ ({field}) => (
 								<FormItem>
@@ -89,6 +91,18 @@ export const LoginForm = () => {
 											type='password'
 										></Input>
 									</FormControl>
+									
+									<Button
+										className='px-0 font-normal'
+										size='sm'
+										variant='link'
+										asChild
+									>
+										<Link href='/auth/reset-password'>
+											Forgot password?
+										</Link>
+									</Button>
+									
 									<FormMessage />
 								</FormItem>
 							) }
