@@ -1,13 +1,13 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import authConfig from "@/auth.config"
-import NextAuth from "next-auth"
-import { db } from "@/lib/db";
-import { getUserById } from "@/data/user";
-import "next-auth"
-import { UserRole } from "@prisma/client";
-import { EProviders } from "@/types/auth/providers.enum";
-import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
-import { ERouteAuth } from "@/routes";
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import authConfig from '@/auth.config'
+import NextAuth from 'next-auth'
+import { db } from '@/lib/db'
+import { getUserById } from '@/data/user'
+import 'next-auth'
+import { UserRole } from '@prisma/client'
+import { EProviders } from '@/types/auth/providers.enum'
+import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation'
+import { ERouteAuth } from '@/routes'
 
 export const {
 	handlers: {GET, POST},
@@ -33,18 +33,20 @@ export const {
 		async signIn({user, account, profile, email, credentials}) {
 			if (account?.provider !== EProviders.Credentials) return true
 			
-			const existingUser = await getUserById(user.id);
+			const existingUser = await getUserById(user.id)
 			
-			if (!existingUser?.emailVerified) return false;
+			if (!existingUser?.emailVerified) return false
 			
 			if (existingUser.isTwoFactorAuth) {
 				const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id)
 				
 				if (!twoFactorConfirmation) return false
 				
-				await db.twoFactorConfirmation.delete({
-					where: {id: twoFactorConfirmation.id}
-				})
+				await db
+					.twoFactorConfirmation
+					.delete({
+						where: {id: twoFactorConfirmation.id}
+					})
 			}
 			
 			return true
@@ -70,6 +72,6 @@ export const {
 		}
 	},
 	adapter: PrismaAdapter(db),
-	session: {strategy: "jwt"},
+	session: {strategy: 'jwt'},
 	...authConfig,
 })

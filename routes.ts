@@ -17,6 +17,7 @@ export enum ERouteAuth {
 
 export enum ERouteApi {
 	Auth = '/api/auth',
+	Admin = '/api/admin',
 }
 
 /**
@@ -27,7 +28,7 @@ export enum ERouteApi {
 export const publicRoutes = [
 	ERoute.Root,
 	ERouteAuth.VerificationEmail
-];
+]
 
 /**
  * An array of routes that are used for authentication
@@ -40,17 +41,17 @@ export const authRoutes = [
 	ERouteAuth.Error,
 	ERouteAuth.ResetPassword,
 	ERouteAuth.NewPassword,
-];
+]
 
 /**
  * The prefix for API authentication routes
  * Routes that start with this prefix are used for API authentication purposes
  * @type {string}
  */
-export const apiAuthPrefix = ERouteApi.Auth;
+export const apiAuthPrefix = ERouteApi.Auth
 
 /**
  * The default redirect path after logging in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = ERoute.Settings;
+export const DEFAULT_LOGIN_REDIRECT = ERoute.Settings
