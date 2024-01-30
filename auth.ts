@@ -4,14 +4,11 @@ import NextAuth from "next-auth"
 import { db } from "@/lib/db";
 import { getUserById } from "@/data/user";
 import "next-auth"
-// @ts-ignore
 import { UserRole } from "@prisma/client";
 import { EProviders } from "@/types/auth/providers.enum";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 import { ERouteAuth } from "@/routes";
 
-// @ts-ignore
-// @ts-ignore
 export const {
 	handlers: {GET, POST},
 	auth,

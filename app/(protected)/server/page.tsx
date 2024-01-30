@@ -1,10 +1,15 @@
-'use client'
+import { currentUser } from "@/lib/auth";
+import { UserInfo } from "@/components/user-info";
 
-const Page = () => {
+const ServerPage = async () => {
+	const user = await currentUser();
 	
 	return (
-		<></>
+		<UserInfo
+			label="💻 Server component"
+			user={ user }
+		/>
 	);
 }
 
-export default Page;
+export default ServerPage;
