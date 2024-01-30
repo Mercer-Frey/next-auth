@@ -1,6 +1,9 @@
 export enum ERoute {
 	Root = '/',
 	Settings = '/settings',
+	Server = '/server',
+	Client = '/client',
+	Admin = '/admin',
 }
 
 export enum ERouteAuth {
