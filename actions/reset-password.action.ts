@@ -5,7 +5,14 @@ import { sendPasswordResetEmail } from "@/lib/mail";
 import { generatePasswordResetToken } from "@/lib/tokens";
 import { ResetPasswordSchema, ResetPasswordSchemaInfer } from "@/schemas/validations/reset-password.schema";
 
-export const resetPassword = async (values: ResetPasswordSchemaInfer) => {
+interface IResetPasswordResult {
+	success?: string;
+	error?: string;
+}
+
+type ResetPassword = (values: ResetPasswordSchemaInfer) => Promise<IResetPasswordResult>
+
+export const resetPassword: ResetPassword = async (values) => {
 	const validatedFields = ResetPasswordSchema.safeParse(values);
 	
 	if (!validatedFields.success) return {error: "Invalid emaiL!"}

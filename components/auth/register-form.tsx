@@ -11,6 +11,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useState, useTransition } from "react";
 import { register } from "@/actions/register.action";
+import { ERouteAuth } from "@/routes";
 
 export const RegisterForm = () => {
 	const [error, setError] = useState<string | undefined>('')
@@ -41,7 +42,7 @@ export const RegisterForm = () => {
 		<CardWrapper
 			headerLabel="Create an account"
 			backButtonLabel="Already have an account?"
-			backButtonHref="/auth/login"
+			backButtonHref={ ERouteAuth.Login }
 			showSocial
 		>
 			<Form { ...form }>

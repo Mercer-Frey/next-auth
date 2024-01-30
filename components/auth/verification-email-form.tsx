@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { verificationEmail } from "@/actions/verification-email";
+import { ERouteAuth } from "@/routes";
 
 export const VerificationEmailForm = () => {
 	const [error, setError] = useState<string | undefined>();
@@ -42,7 +43,7 @@ export const VerificationEmailForm = () => {
 		<CardWrapper
 			headerLabel="Confirming your verification"
 			backButtonLabel="Back to login"
-			backButtonHref="/auth/login"
+			backButtonHref={ ERouteAuth.Login }
 		>
 			<div className="flex items-center w-full justify-center">
 				{ !success && !error && (<BeatLoader />) }

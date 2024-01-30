@@ -4,7 +4,14 @@ import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
 import { getVerificationTokenByToken } from "@/data/verification-token";
 
-export const verificationEmail = async (token: string) => {
+interface IVerificationEmailResult {
+	success?: string;
+	error?: string;
+}
+
+type VerificationEmail = (token: string) => Promise<IVerificationEmailResult>
+
+export const verificationEmail: VerificationEmail = async (token) => {
 	const existingToken = await getVerificationTokenByToken(token);
 	
 	if (!existingToken) return {error: "Token does not exist!"}

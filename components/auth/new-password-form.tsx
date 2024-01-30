@@ -17,6 +17,7 @@ import {
 	NewPasswordSchema,
 	NewPasswordSchemaInfer
 } from "@/schemas/validations/new-password.schema";
+import { ERouteAuth } from "@/routes";
 
 export const NewPasswordForm = () => {
 	const searchParams = useSearchParams();
@@ -50,7 +51,7 @@ export const NewPasswordForm = () => {
 		<CardWrapper
 			headerLabel="Enter a new password"
 			backButtonLabel="Back to login"
-			backButtonHref="/auth/login"
+			backButtonHref={ ERouteAuth.Login }
 		>
 			<Form { ...form }>
 				<form

@@ -7,10 +7,14 @@ import { getUserByEmail } from "@/data/user";
 import { db } from "@/lib/db";
 import { NewPasswordSchema, NewPasswordSchemaInfer } from "@/schemas/validations/new-password.schema";
 
-export const newPassword = async (
-	values: NewPasswordSchemaInfer,
-	token?: string | null,
-) => {
+interface INewPasswordResult {
+	success?: string;
+	error?: string;
+}
+
+type NewPassword = (values: NewPasswordSchemaInfer, token?: string | null) => Promise<INewPasswordResult>
+
+export const newPassword: NewPassword = async (values, token,) => {
 	if (!token) return {error: "Missing token!"}
 	
 	const validatedFields = NewPasswordSchema.safeParse(values);

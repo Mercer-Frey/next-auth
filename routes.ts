@@ -1,11 +1,29 @@
+export enum ERoute {
+	Root = '/',
+	Settings = '/settings',
+}
+
+export enum ERouteAuth {
+	Error = '/auth/error',
+	Login = '/auth/login',
+	Register = '/auth/register',
+	VerificationEmail = '/auth/verification-email',
+	ResetPassword = '/auth/reset-password',
+	NewPassword = '/auth/new-password',
+}
+
+export enum ERouteApi {
+	Auth = '/api/auth',
+}
+
 /**
  * An array of routes that are accessible to the public
  * These routes do not require authentication
  * @type {string[]}
  */
 export const publicRoutes = [
-	"/",
-	"/auth/new-verification"
+	ERoute.Root,
+	ERouteAuth.VerificationEmail
 ];
 
 /**
@@ -14,11 +32,11 @@ export const publicRoutes = [
  * @type {string[]}
  */
 export const authRoutes = [
-	"/auth/login",
-	"/auth/register",
-	"/auth/error",
-	"/auth/reset-password",
-	"/auth/new-password"
+	ERouteAuth.Login,
+	ERouteAuth.Register,
+	ERouteAuth.Error,
+	ERouteAuth.ResetPassword,
+	ERouteAuth.NewPassword,
 ];
 
 /**
@@ -26,10 +44,10 @@ export const authRoutes = [
  * Routes that start with this prefix are used for API authentication purposes
  * @type {string}
  */
-export const apiAuthPrefix = "/api/auth";
+export const apiAuthPrefix = ERouteApi.Auth;
 
 /**
  * The default redirect path after logging in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/settings";
+export const DEFAULT_LOGIN_REDIRECT = ERoute.Settings;

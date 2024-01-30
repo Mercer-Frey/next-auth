@@ -13,11 +13,12 @@ import { login } from "@/actions/login.action";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { EResetPasswordSchema } from "@/schemas/validations/reset-password.schema";
+import { ERouteAuth } from "@/routes";
 
 export const LoginForm = () => {
 	const searchParams = useSearchParams()
 	const urlError = searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email already in use with different provider!' : ''
+	const [showTwoFactor, setShowTwoFactor] = useState<boolean>(false)
 	const [error, setError] = useState<string | undefined>('')
 	const [success, setSuccess] = useState<string | undefined>('')
 	const [isPending, startTransition] = useTransition()
@@ -36,9 +37,19 @@ export const LoginForm = () => {
 		startTransition(() => {
 			login(values)
 				.then(data => {
-					setError(data?.error)
-					setSuccess(data?.success)
+					if (data?.error) {
+						form.reset()
+						setError(data?.error)
+					}
+					if (data?.success) {
+						form.reset()
+						setSuccess(data?.success)
+					}
+					if (data?.twoFactor) {
+						setShowTwoFactor(true)
+					}
 				})
+				.catch(error => setError(error))
 		})
 	}
 	
@@ -46,7 +57,7 @@ export const LoginForm = () => {
 		<CardWrapper
 			headerLabel="Welcome back"
 			backButtonLabel="Don't have an account?"
-			backButtonHref="/auth/register"
+			backButtonHref={ ERouteAuth.Register }
 			showSocial
 		>
 			<Form { ...form }>
@@ -54,60 +65,88 @@ export const LoginForm = () => {
 					className='space-y-6'
 					onSubmit={ form.handleSubmit(onLoginSubmit) }
 				>
-					
-					<div className='space-y-4'>
-						<FormField
-							name={ EResetPasswordSchema.Email }
-							control={ form.control }
-							render={ ({field}) => (
-								<FormItem>
-									<FormLabel>Email</FormLabel>
-									<FormControl>
-										<Input
-											{ ...field }
-											disabled={ isPending }
-											placeholder='john.email@huy.com'
-											type='email'
-										></Input>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							) }
-						/>
-					</div>
-					
-					<div className='space-y-4'>
-						<FormField
-							name={ ELoginSchema.Password }
-							control={ form.control }
-							render={ ({field}) => (
-								<FormItem>
-									<FormLabel>Password</FormLabel>
-									<FormControl>
-										<Input
-											{ ...field }
-											disabled={ isPending }
-											placeholder='******'
-											type='password'
-										></Input>
-									</FormControl>
-									
-									<Button
-										className='px-0 font-normal'
-										size='sm'
-										variant='link'
-										asChild
-									>
-										<Link href='/auth/reset-password'>
-											Forgot password?
-										</Link>
-									</Button>
-									
-									<FormMessage />
-								</FormItem>
-							) }
-						/>
-					</div>
+					{ showTwoFactor &&
+                        <>
+                            <div className='space-y-4'>
+                                <FormField
+                                    name={ ELoginSchema.Code }
+                                    control={ form.control }
+                                    render={ ({field}) => (
+										<FormItem>
+											<FormLabel>Two Factor Code</FormLabel>
+											<FormControl>
+												<Input
+													{ ...field }
+													disabled={ isPending }
+													placeholder='123456'
+													type='text'
+												></Input>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									) }
+                                />
+                            </div>
+
+                        </>
+					}
+					{ !showTwoFactor &&
+                        <>
+                            <div className='space-y-4'>
+                                <FormField
+                                    name={ ELoginSchema.Email }
+                                    control={ form.control }
+                                    render={ ({field}) => (
+										<FormItem>
+											<FormLabel>Email</FormLabel>
+											<FormControl>
+												<Input
+													{ ...field }
+													disabled={ isPending }
+													placeholder='john.email@huy.com'
+													type='email'
+												></Input>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									) }
+                                />
+                            </div>
+
+                            <div className='space-y-4'>
+                                <FormField
+                                    name={ ELoginSchema.Password }
+                                    control={ form.control }
+                                    render={ ({field}) => (
+										<FormItem>
+											<FormLabel>Password</FormLabel>
+											<FormControl>
+												<Input
+													{ ...field }
+													disabled={ isPending }
+													placeholder='******'
+													type='password'
+												></Input>
+											</FormControl>
+											
+											<Button
+												className='px-0 font-normal'
+												size='sm'
+												variant='link'
+												asChild
+											>
+												<Link href={ ERouteAuth.ResetPassword }>
+													Forgot password?
+												</Link>
+											</Button>
+											
+											<FormMessage />
+										</FormItem>
+									) }
+                                />
+                            </div>
+                        </>
+					}
 					
 					<FormError message={ error || urlError }></FormError>
 					
@@ -118,12 +157,13 @@ export const LoginForm = () => {
 						disabled={ isPending }
 						type='submit'
 					>
-						Login
+						{ showTwoFactor ? 'Confirm' : 'Login' }
 					</Button>
 				
 				</form>
 			
 			</Form>
 		</CardWrapper>
-	);
+	)
+		;
 };

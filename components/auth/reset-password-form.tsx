@@ -11,7 +11,12 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { resetPassword } from "@/actions/reset-password.action";
-import { ResetPasswordSchema, ResetPasswordSchemaInfer } from "@/schemas/validations/reset-password.schema";
+import {
+	EResetPasswordSchema,
+	ResetPasswordSchema,
+	ResetPasswordSchemaInfer
+} from "@/schemas/validations/reset-password.schema";
+import { ERouteAuth } from "@/routes";
 
 export const ResetPasswordForm = () => {
 	const [error, setError] = useState<string | undefined>("");
@@ -42,7 +47,7 @@ export const ResetPasswordForm = () => {
 		<CardWrapper
 			headerLabel="Forgot your password?"
 			backButtonLabel="Back to login"
-			backButtonHref="/auth/login"
+			backButtonHref={ ERouteAuth.Login }
 		>
 			<Form { ...form }>
 				<form
@@ -52,7 +57,7 @@ export const ResetPasswordForm = () => {
 					<div className="space-y-4">
 						<FormField
 							control={ form.control }
-							name="email"
+							name={ EResetPasswordSchema.Email }
 							render={ ({field}) => (
 								<FormItem>
 									<FormLabel>Email</FormLabel>

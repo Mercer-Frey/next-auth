@@ -3,11 +3,13 @@ import * as z from "zod";
 export enum ELoginSchema {
 	Email = 'email',
 	Password = 'password',
+	Code = 'code',
 }
 
 interface ILogin {
 	[ELoginSchema.Email]: string;
 	[ELoginSchema.Password]: string;
+	[ELoginSchema.Code]?: string;
 }
 
 export const LoginSchema: z.ZodType<ILogin> = z.object({
@@ -21,6 +23,8 @@ export const LoginSchema: z.ZodType<ILogin> = z.object({
 		.min(1, {
 			message: "Password is required",
 		}),
+	[ELoginSchema.Code]: z
+		.optional(z.string())
 });
 
 export type LoginSchemaInfer = z.infer<typeof LoginSchema>;

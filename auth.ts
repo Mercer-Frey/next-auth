@@ -7,6 +7,8 @@ import "next-auth"
 // @ts-ignore
 import { UserRole } from "@prisma/client";
 import { EProviders } from "@/types/auth/providers.enum";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { ERouteAuth } from "@/routes";
 
 // @ts-ignore
 // @ts-ignore
@@ -17,8 +19,8 @@ export const {
 	signOut
 } = NextAuth({
 	pages: {
-		signIn: '/auth/login',
-		signOut: '/auth/error',
+		signIn: ERouteAuth.Login,
+		signOut: ERouteAuth.Error,
 	},
 	events: {
 		async linkAccount({user}) {
@@ -37,6 +39,16 @@ export const {
 			const existingUser = await getUserById(user.id);
 			
 			if (!existingUser?.emailVerified) return false;
+			
+			if (existingUser.isTwoFactorAuth) {
+				const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id)
+				
+				if (!twoFactorConfirmation) return false
+				
+				await db.twoFactorConfirmation.delete({
+					where: {id: twoFactorConfirmation.id}
+				})
+			}
 			
 			return true
 		},

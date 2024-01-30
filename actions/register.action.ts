@@ -7,7 +7,14 @@ import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
-export const register = async (values: RegisterSchemaInfer) => {
+interface IRegisterResult {
+	success?: string;
+	error?: string;
+}
+
+type Register = (values: RegisterSchemaInfer) => Promise<IRegisterResult>
+
+export const register: Register = async (values) => {
 	const validateFields = RegisterSchema.safeParse(values)
 	
 	if (!validateFields.success) return {error: 'Invalid fields!'}
