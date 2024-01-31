@@ -1,9 +1,10 @@
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
 
-import { CardWrapper } from "@/components/auth/card-wrapper";
-import { ERouteAuth } from "@/routes";
+import { CardWrapper } from '@/components/auth/card-wrapper'
+import { ERouteAuth } from '@/routes'
 
 export const ErrorCard = () => {
+	
 	return (
 		<CardWrapper
 			headerLabel="Oops! Something went wrong!"
@@ -14,5 +15,5 @@ export const ErrorCard = () => {
 				<ExclamationTriangleIcon className="text-destructive" />
 			</div>
 		</CardWrapper>
-	);
-};
+	)
+}

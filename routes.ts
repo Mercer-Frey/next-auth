@@ -27,7 +27,6 @@ export enum ERouteApi {
  */
 export const publicRoutes = [
 	ERoute.Root,
-	ERouteAuth.VerificationEmail
 ]
 
 /**
@@ -41,6 +40,7 @@ export const authRoutes = [
 	ERouteAuth.Error,
 	ERouteAuth.ResetPassword,
 	ERouteAuth.NewPassword,
+	ERouteAuth.VerificationEmail,
 ]
 
 /**

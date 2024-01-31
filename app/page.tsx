@@ -1,20 +1,20 @@
-import { Poppins } from "next/font/google";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { LoginButton } from "@/components/auth/login-button";
+import { Poppins } from 'next/font/google'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { LoginButton } from '@/components/auth/login-button'
 
 const font = Poppins({
-	subsets: ["latin"],
-	weight: ["600"]
+	subsets: ['latin'],
+	weight: ['600']
 })
 
-export default function Page() {
+const Page = () => {
 	
 	return (
-		<main className='app-bg-primary flex h-full flex-col items-center justify-center'>
-			<div className='space-y-6 text-center'>
+		<main className="app-bg-primary flex h-full flex-col items-center justify-center">
+			<div className="space-y-6 text-center">
 				<h1 className={ cn(
-					"text-6xl font-semibold text-white drop-shadow-md",
+					'text-6xl font-semibold text-white drop-shadow-md',
 					font.className,
 				) }>
 					🔐 Auth
@@ -31,5 +31,7 @@ export default function Page() {
 				</div>
 			</div>
 		</main>
-	);
+	)
 }
+
+export default Page

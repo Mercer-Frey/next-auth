@@ -16,6 +16,7 @@ const Page = () => {
 				if (data.error) toast.error(data.error)
 				if (data.success) toast.success(data.success)
 			})
+			.catch(error => toast.error(error))
 	}
 	
 	const onApiRouteClick = () => {

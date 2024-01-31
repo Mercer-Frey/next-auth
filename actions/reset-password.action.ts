@@ -1,9 +1,9 @@
-"use server";
+'use server'
 
-import { getUserByEmail } from "@/data/user";
-import { sendPasswordResetEmail } from "@/lib/mail";
-import { generatePasswordResetToken } from "@/lib/tokens";
-import { ResetPasswordSchema, ResetPasswordSchemaInfer } from "@/schemas/validations/reset-password.schema";
+import { getUserByEmail } from '@/data/user'
+import { sendPasswordResetEmail } from '@/lib/mail'
+import { generatePasswordResetToken } from '@/lib/tokens'
+import { ResetPasswordSchema, ResetPasswordSchemaInfer } from '@/schemas/validations/reset-password.schema'
 
 interface IResetPasswordResult {
 	success?: string;
@@ -13,22 +13,19 @@ interface IResetPasswordResult {
 type ResetPassword = (values: ResetPasswordSchemaInfer) => Promise<IResetPasswordResult>
 
 export const resetPassword: ResetPassword = async (values) => {
-	const validatedFields = ResetPasswordSchema.safeParse(values);
+	const validatedFields = ResetPasswordSchema.safeParse(values)
 	
-	if (!validatedFields.success) return {error: "Invalid emaiL!"}
+	if (!validatedFields.success) return {error: 'Invalid emaiL!'}
 	
-	const {email} = validatedFields.data;
+	const {email} = validatedFields.data
 	
-	const existingUser = await getUserByEmail(email);
+	const existingUser = await getUserByEmail(email)
 	
-	if (!existingUser) return {error: "Email not found!"}
+	if (!existingUser) return {error: 'Email not found!'}
 	
-	const passwordResetToken = await generatePasswordResetToken(email);
+	const passwordResetToken = await generatePasswordResetToken(email)
 	
-	await sendPasswordResetEmail(
-		passwordResetToken.email,
-		passwordResetToken.token,
-	);
+	await sendPasswordResetEmail(passwordResetToken.email, passwordResetToken.token,)
 	
-	return {success: "Reset email sent!"};
+	return {success: 'Reset email sent!'}
 }

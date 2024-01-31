@@ -1,8 +1,8 @@
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { IFormErrorProps } from "@/types/form-error.props";
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
+import { IFormErrorProps } from '@/types/form-error.props'
 
 export const FormError = ({message}: IFormErrorProps) => {
-	if (!message) return null;
+	if (!message) return null
 	
 	return (
 		<div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive">
@@ -12,5 +12,5 @@ export const FormError = ({message}: IFormErrorProps) => {
 			<p>{ message }</p>
 		
 		</div>
-	);
-};
+	)
+}

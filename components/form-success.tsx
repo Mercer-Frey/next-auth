@@ -1,8 +1,8 @@
-import { CheckCircledIcon } from "@radix-ui/react-icons";
-import { IFormSuccessProps } from "@/types/form-success.props";
+import { CheckCircledIcon } from '@radix-ui/react-icons'
+import { IFormSuccessProps } from '@/types/form-success.props'
 
 export const FormSuccess = ({message}: IFormSuccessProps) => {
-	if (!message) return null;
+	if (!message) return null
 	
 	return (
 		<div className="bg-emerald-500/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-emerald-500">
@@ -12,5 +12,5 @@ export const FormSuccess = ({message}: IFormSuccessProps) => {
 			<p>{ message }</p>
 		
 		</div>
-	);
-};
+	)
+}

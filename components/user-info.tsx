@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { IUserInfoProps } from "@/types/user-info.props";
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { IUserInfoProps } from '@/types/user-info.props'
 
 export const UserInfo = ({user, label}: IUserInfoProps) => {
 	
@@ -50,9 +50,9 @@ export const UserInfo = ({user, label}: IUserInfoProps) => {
 						Two Factor Authentication
 					</p>
 					<Badge
-						variant={ user?.isTwoFactorAuth ? "success" : "destructive" }
+						variant={ user?.isTwoFactorAuth ? 'success' : 'destructive' }
 					>
-						{ user?.isTwoFactorAuth ? "ON" : "OFF" }
+						{ user?.isTwoFactorAuth ? 'ON' : 'OFF' }
 					</Badge>
 				</div>
 			</CardContent>

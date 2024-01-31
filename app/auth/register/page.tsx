@@ -1,9 +1,5 @@
-import { RegisterForm } from "@/components/auth/register-form";
+import { RegisterForm } from '@/components/auth/register-form'
 
-const Page = () => {
-	return (
-		<RegisterForm />
-	);
-}
+const Page = () => <RegisterForm />
 
-export default Page;
+export default Page

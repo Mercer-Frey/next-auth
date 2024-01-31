@@ -1,9 +1,5 @@
-import { ResetPasswordForm } from "@/components/auth/reset-password-form";
+import { ResetPasswordForm } from '@/components/auth/reset-password-form'
 
-const Page = () => {
-	return (
-		<ResetPasswordForm />
-	);
-}
+const Page = () => <ResetPasswordForm />
 
-export default Page;
+export default Page

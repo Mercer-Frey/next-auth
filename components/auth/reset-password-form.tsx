@@ -1,47 +1,48 @@
-"use client";
+'use client'
 
-import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from 'react-hook-form'
+import { useState, useTransition } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
-import { CardWrapper } from "@/components/auth/card-wrapper"
-import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
-import { resetPassword } from "@/actions/reset-password.action";
+import { Input } from '@/components/ui/input'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from '@/components/ui/form'
+import { CardWrapper } from '@/components/auth/card-wrapper'
+import { Button } from '@/components/ui/button'
+import { FormError } from '@/components/form-error'
+import { FormSuccess } from '@/components/form-success'
+import { resetPassword } from '@/actions/reset-password.action'
 import {
 	EResetPasswordSchema,
 	ResetPasswordSchema,
 	ResetPasswordSchemaInfer
-} from "@/schemas/validations/reset-password.schema";
-import { ERouteAuth } from "@/routes";
+} from '@/schemas/validations/reset-password.schema'
+import { ERouteAuth } from '@/routes'
 
 export const ResetPasswordForm = () => {
-	const [error, setError] = useState<string | undefined>("");
-	const [success, setSuccess] = useState<string | undefined>("");
-	const [isPending, startTransition] = useTransition();
+	const [error, setError] = useState<string | undefined>('')
+	const [success, setSuccess] = useState<string | undefined>('')
+	const [isPending, startTransition] = useTransition()
 	
 	const form = useForm<ResetPasswordSchemaInfer>({
 		resolver: zodResolver(ResetPasswordSchema),
 		defaultValues: {
-			email: "",
+			[EResetPasswordSchema.Email]: '',
 		},
-	});
+	})
 	
 	const onSubmit = (values: ResetPasswordSchemaInfer) => {
-		setError("");
-		setSuccess("");
+		setError('')
+		setSuccess('')
 		
 		startTransition(() => {
 			resetPassword(values)
 				.then((data) => {
-					setError(data?.error);
-					setSuccess(data?.success);
-				});
-		});
-	};
+					setError(data?.error)
+					setSuccess(data?.success)
+				})
+				.catch(error => setError(error))
+		})
+	}
 	
 	return (
 		<CardWrapper
@@ -86,5 +87,5 @@ export const ResetPasswordForm = () => {
 				</form>
 			</Form>
 		</CardWrapper>
-	);
-};
+	)
+}

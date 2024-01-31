@@ -1,16 +1,16 @@
-"use client";
+'use client'
 
-import Link from "next/link";
+import Link from 'next/link'
 
-import { Button } from "@/components/ui/button";
-import { IBackButtonProps } from "@/types/auth/back-button.props";
+import { Button } from '@/components/ui/button'
+import { IBackButtonProps } from '@/types/auth/back-button.props'
 
 export const BackButton = ({href, label}: IBackButtonProps) => {
 	
 	return (
 		<Button
-			variant="link"
 			className="font-normal w-full"
+			variant="link"
 			size="sm"
 			asChild
 		>
@@ -18,5 +18,5 @@ export const BackButton = ({href, label}: IBackButtonProps) => {
 				{ label }
 			</Link>
 		</Button>
-	);
-};
+	)
+}

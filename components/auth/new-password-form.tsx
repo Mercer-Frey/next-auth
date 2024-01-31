@@ -1,51 +1,52 @@
-"use client";
+'use client'
 
-import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from 'react-hook-form'
+import { useState, useTransition } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
-import { CardWrapper } from "@/components/auth/card-wrapper"
-import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
-import { newPassword } from "@/actions/new-password.action";
+import { Input } from '@/components/ui/input'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from '@/components/ui/form'
+import { CardWrapper } from '@/components/auth/card-wrapper'
+import { Button } from '@/components/ui/button'
+import { FormError } from '@/components/form-error'
+import { FormSuccess } from '@/components/form-success'
+import { newPassword } from '@/actions/new-password.action'
 import {
 	ENewPasswordSchema,
 	NewPasswordSchema,
 	NewPasswordSchemaInfer
-} from "@/schemas/validations/new-password.schema";
-import { ERouteAuth } from "@/routes";
+} from '@/schemas/validations/new-password.schema'
+import { ERouteAuth } from '@/routes'
 
 export const NewPasswordForm = () => {
-	const searchParams = useSearchParams();
-	const token = searchParams.get("token");
+	const searchParams = useSearchParams()
+	const token = searchParams.get('token')
 	
-	const [error, setError] = useState<string | undefined>("");
-	const [success, setSuccess] = useState<string | undefined>("");
-	const [isPending, startTransition] = useTransition();
+	const [error, setError] = useState<string | undefined>('')
+	const [success, setSuccess] = useState<string | undefined>('')
+	const [isPending, startTransition] = useTransition()
 	
 	const form = useForm<NewPasswordSchemaInfer>({
 		resolver: zodResolver(NewPasswordSchema),
 		defaultValues: {
-			password: "",
+			[ENewPasswordSchema.Password]: '',
 		},
-	});
+	})
 	
 	const onSubmit = (values: NewPasswordSchemaInfer) => {
-		setError("");
-		setSuccess("");
+		setError('')
+		setSuccess('')
 		
 		startTransition(() => {
 			newPassword(values, token)
 				.then((data) => {
-					setError(data?.error);
-					setSuccess(data?.success);
-				});
-		});
-	};
+					setError(data?.error)
+					setSuccess(data?.success)
+				})
+				.catch(error => setError(error))
+		})
+	}
 	
 	return (
 		<CardWrapper
@@ -90,5 +91,5 @@ export const NewPasswordForm = () => {
 				</form>
 			</Form>
 		</CardWrapper>
-	);
-};
+	)
+}

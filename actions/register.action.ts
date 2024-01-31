@@ -1,11 +1,11 @@
 'use server'
 
 import bcrypt from 'bcryptjs'
-import { RegisterSchema, RegisterSchemaInfer } from "@/schemas/validations/register.schema";
-import { db } from "@/lib/db";
-import { getUserByEmail } from "@/data/user";
-import { generateVerificationToken } from "@/lib/tokens";
-import { sendVerificationEmail } from "@/lib/mail";
+import { RegisterSchema, RegisterSchemaInfer } from '@/schemas/validations/register.schema'
+import { db } from '@/lib/db'
+import { getUserByEmail } from '@/data/user'
+import { generateVerificationToken } from '@/lib/tokens'
+import { sendVerificationEmail } from '@/lib/mail'
 
 interface IRegisterResult {
 	success?: string;
@@ -24,11 +24,9 @@ export const register: Register = async (values) => {
 	
 	const existingUser = await getUserByEmail(email)
 	
-	if (existingUser) {
-		return {error: 'Email already in use!'}
-	}
+	if (existingUser) return {error: 'Email already in use!'}
 	
-	await db
+	const createdUser = await db
 		.user
 		.create({
 			data: {
@@ -38,7 +36,7 @@ export const register: Register = async (values) => {
 			},
 		})
 	
-	const verificationToken = await generateVerificationToken(email)
+	const verificationToken = await generateVerificationToken(email, createdUser.id)
 	
 	await sendVerificationEmail(verificationToken.email, verificationToken.token)
 	
