@@ -10,4 +10,4 @@ export const getAccountByUserId = async (userId: string) => {
 	} catch {
 		return null
 	}
-};
+}
